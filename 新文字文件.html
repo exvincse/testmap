@@ -17,18 +17,18 @@
   <body>
     <div id="map"></div>
     <script>
-        function makeRequest(){
-            xhr = new XMLHttpRequest();
-            xhr.open( 'POST','https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCvaaFYm7Cukczkr_76Hct5EAl0K-GPehI');
-            xhr.onload = function(){
-                // do something
-                var response = JSON.parse(this.responseText);
-                console.log(response)
-            }
-            xhr.send();
-        }
+        // function makeRequest(){
+        //     xhr = new XMLHttpRequest();
+        //     xhr.open( 'POST','https://www.googleapis.com/geolocation/v1/geolocate?key=');
+        //     xhr.onload = function(){
+        //         // do something
+        //         var response = JSON.parse(this.responseText);
+        //         console.log(response)
+        //     }
+        //     xhr.send();
+        // }
 
-        makeRequest();
+        // makeRequest();
 
 
         // let lat = 0;
@@ -64,6 +64,45 @@
         //     });
         // }
     </script>
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCAHD9s0_bv9AU4GCGB3rph8hcBkCAUFGs&callback=initMap" async defer></script> -->
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=''&callback=initMap" async defer></script> -->
+    <!-- 
+  function initMap() {
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 8,
+    center: { lat: 40.731, lng: -73.997 },
+  });
+  const geocoder = new google.maps.Geocoder();
+  const infowindow = new google.maps.InfoWindow();
+  document.getElementById("submit").addEventListener("click", () => {
+    geocodeLatLng(geocoder, map, infowindow);
+  });
+}
+
+function geocodeLatLng(geocoder, map, infowindow) {
+  const input = document.getElementById("latlng").value;
+  const latlngStr = input.split(",", 2);
+  const latlng = {
+    lat: parseFloat(latlngStr[0]),
+    lng: parseFloat(latlngStr[1]),
+  };
+  geocoder
+    .geocode({ location: latlng })
+    .then((response) => {
+      if (response.results[0]) {
+        map.setZoom(11);
+        const marker = new google.maps.Marker({
+          position: latlng,
+          map: map,
+        });
+        infowindow.setContent(response.results[0].formatted_address);
+        infowindow.open(map, marker);
+        console.log(response.results[0])
+      } else {
+        window.alert("No results found");
+      }
+    })
+    .catch((e) => window.alert("Geocoder failed due to: " + e));
+}
+ -->
   </body>
 </html>
