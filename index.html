@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <iframe
+        id="map"
+        width="800"
+        height="400"
+        frameborder="0" style="border:0"
+        allowfullscreen>
+    </iframe>
+    <div class="addressText"></div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // 如果原生經緯度不准，可以換看看 Google Geolocation API
+
+        // google api 經緯度 好像要錢 => Google Geolocation API
+        // axios.post('https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyCrUdCb-piR09xq3p79tNFHQMbfO6vHn68').then((res) =>{
+        //     console.log(res);
+        // })
+
+        // 原生經緯度
+        if(navigator.geolocation) {
+            // 使用者不提供權限，或是發生其它錯誤
+            function error() {
+                alert('無法取得你的位置，請確認是否同意瀏覽器存取您的定位');
+            }
+
+            // 回傳經緯度
+            function success(position) {
+                let lat = position.coords.latitude.toFixed(4);
+                let lng = position.coords.longitude.toFixed(4)
+                document.querySelector('#map').setAttribute('src', `https://www.google.com/maps/embed/v1/place?key=AIzaSyCrUdCb-piR09xq3p79tNFHQMbfO6vHn68&q=${lat}, ${lng}&zoom=18`)
+
+                // google 經緯度轉地址 要錢 => Google Geocoding API
+                // axios.get('https://maps.googleapis.com/maps/api/geocode/json?latlng='+ lat +','+ lng +'&key=AIzaSyAmxNohwHg6XvomdlkgCWyWC6y1CqeCqao').then((res) =>{
+                //    console.log(res.data);
+                //    document.querySelector('.addressText').textContent = ''
+                // })
+
+                // HERE api 每月限制25萬次，超過帳戶凍結。
+                axios.get(`https://reverse.geocoder.ls.hereapi.com/6.2/reversegeocode.json?apiKey=gaplZrX_YkK0loeNUlkpjC0zNl7lIa2usY419_kan5s&mode=retrieveAddresses&prox=${lat},${lng}`).then((res) =>{
+                    console.log(res.data)
+                    document.querySelector('.addressText').textContent = '地址:' + res.data.Response.View[0].Result[0].Location.Address.Label;
+                })
+            }
+            // 位置的權限
+            navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+            alert('你的裝置不支援地理位置功能，請買其他裝置')
+        }
+    </script>
+  </body>
+</html>
