@@ -31,6 +31,7 @@
             function success(position) {
                 let lat = position.coords.latitude.toFixed(4);
                 let lng = position.coords.longitude.toFixed(4)
+                console.log(lat,lng)
                 document.querySelector('#map').setAttribute('src', `https://www.google.com/maps/embed/v1/place?key=AIzaSyCrUdCb-piR09xq3p79tNFHQMbfO6vHn68&q=${lat}, ${lng}&zoom=18`)
 
                 // google 經緯度轉地址 要錢 => Google Geocoding API
@@ -45,13 +46,13 @@
                     document.querySelector('.addressText').textContent = '地址:' + res.data.Response.View[0].Result[0].Location.Address.Label;
                 })
             }
-            var options = {
+            var option = {
                 enableHighAccuracy: true,
-                timeout: 100,
+                timeout: 500,
                 maximumAge: 0
-            };
+            }
             // 位置的權限
-            navigator.geolocation.getCurrentPosition(success, error, options);
+            navigator.geolocation.watchPosition(success, error, option);
         } else {
             alert('你的裝置不支援地理位置功能，請買其他裝置')
         }
