@@ -45,8 +45,13 @@
                     document.querySelector('.addressText').textContent = '地址:' + res.data.Response.View[0].Result[0].Location.Address.Label;
                 })
             }
+            var options = {
+                enableHighAccuracy: true,
+                timeout: 100,
+                maximumAge: 0
+            };
             // 位置的權限
-            navigator.geolocation.getCurrentPosition(success, error);
+            navigator.geolocation.getCurrentPosition(success, error, options);
         } else {
             alert('你的裝置不支援地理位置功能，請買其他裝置')
         }
